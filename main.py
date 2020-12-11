@@ -3,6 +3,8 @@ import pandas as pd
 import numpy as np
 import math
 from pandas import DataFrame
+import time
+
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 def allowed_file(filename):
@@ -12,7 +14,7 @@ def allowed_file(filename):
 ED = lambda X, Y : (sum((X - Y)**2))**0.5
 
 K = 8 # K closest elements
-N = 2000 # N elements for collection
+N = 20 # N elements for collection
 
 from rtree import index
 
@@ -30,6 +32,7 @@ my_dir = 'lfw/' # Folder where all your image files reside. Ensure it ends with 
 query_dl = 'query/'
 
 encoding_for_file = [] # Create an empty list for saving encoded files
+results_encodings = []
 face_register = dict()
 id_value=0
 
@@ -76,6 +79,18 @@ def assign_folders(folderlist,thread_num):
     Q.put(result)
     return
 
+from heapq import heappush, heappop
+
+def knn_search(image_encoding, k):
+  priorityq = []
+  distances = face_recognition.face_distance(results_encodings, image_encoding)
+  distances = []
+  for i in range(len(distances)):
+    heappush(priorityq, (1/distances[i], i))
+    if(len(priorityq) > k): 
+      heappop(priorityq)
+  answers = sorted(priorityq, key=lambda tup: tup[0], reverse=True)
+  return answers
 
 x=list()
 
@@ -96,6 +111,7 @@ for p in range(worker_count):
 cnt = 0
 for encoding in encoding_for_file:
     a=encoding[0]
+    results_encodings.append(a)
     a = a.tolist() + a.tolist()
     idx.insert(cnt, a, obj=encoding[1])
     cnt = cnt + 1
@@ -127,3 +143,5 @@ while 1:
         for n in hits:
             a = n.object
             print(a)
+        print(knn_search(image_encoding, K))
+       
