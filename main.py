@@ -37,12 +37,10 @@ face_register = dict()
 id_value=0
 
 import shutil
-
 for dir in [query_dl]:
     for path in os.listdir(dir):
         full_path = os.path.join(dir, path)
         shutil.rmtree(full_path, ignore_errors=True)
-
 import threading
 import itertools
 
