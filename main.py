@@ -14,8 +14,7 @@ def allowed_file(filename):
 ED = lambda X, Y : (sum((X - Y)**2))**0.5
 
 K = 8 # K closest elements
-N = 20 # N elements for collection
-
+N = 1 # N elements for collection
 from rtree import index
 
 p = index.Property()
@@ -73,7 +72,7 @@ def assign_folders(folderlist,thread_num):
         result = result + folder_process(i)
         cnt = cnt + 1
         per = (cnt/lng)*100
-        if int(math.ceil(per)) % 5 == 0:
+        if (int(math.ceil(per)) % 5 == 0 and not (per % 1)):
             print('thread',thread_num,':', per,'%','completed')
     print('thread',thread_num,'done!')
     Q.put(result)
@@ -136,12 +135,18 @@ while 1:
         print('No se encontró una cara en tu búsqueda, ¿podría ser más específico?')
     else:
         q = image_encoding[0].tolist()
-
+        rtree_start = time.time()
         hits=idx.nearest(q, objects=True, num_results=K)
+        rtree_end = time.time()
 
         print("\nLos",K,"vecinos mas cercanos de",name_input,"son: ")
+        print("r-tree took ", rtree_end - rtree_start)
         for n in hits:
             a = n.object
             print(a)
-        print(knn_search(image_encoding, K))
+        knn_start = time.time()
+        knn_results = knn_search(image_encoding, K)
+        knn_end = time.time()
+        print("\nLos",K,"vecinos mas cercanos de",name_input," usando knn son: ", knn_results)
+        print("knn took ", knn_end - knn_start)
        
