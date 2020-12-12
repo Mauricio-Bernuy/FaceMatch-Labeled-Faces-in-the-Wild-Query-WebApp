@@ -12,7 +12,7 @@ def allowed_file(filename):
 ED = lambda X, Y : (sum((X - Y)**2))**0.5
 
 K = 8 # K closest elements
-N = 50 # N elements for collection
+N = 12800 # N elements for collection
 
 from rtree import index
 
