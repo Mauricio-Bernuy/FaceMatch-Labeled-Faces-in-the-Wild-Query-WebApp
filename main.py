@@ -14,7 +14,7 @@ def allowed_file(filename):
 ED = lambda X, Y : (sum((X - Y)**2))**0.5
 
 K = 8 # K closest elements
-N = 1 # N elements for collection
+N = 5 # N elements for collection
 from rtree import index
 
 p = index.Property()
@@ -72,7 +72,7 @@ def assign_folders(folderlist,thread_num):
         result = result + folder_process(i)
         cnt = cnt + 1
         per = (cnt/lng)*100
-        if (int(math.ceil(per)) % 5 == 0 and not (per % 1)):
+        if (int(math.ceil(per)) % 5 == 0):
             print('thread',thread_num,':', per,'%','completed')
     print('thread',thread_num,'done!')
     Q.put(result)
@@ -82,10 +82,10 @@ from heapq import heappush, heappop
 
 def knn_search(image_encoding, k):
   priorityq = []
-  distances = face_recognition.face_distance(results_encodings, image_encoding)
-  distances = []
+  #print(encoding_for_file)
+  distances = face_recognition.face_distance(results_encodings, image_encoding[0])
   for i in range(len(distances)):
-    heappush(priorityq, (1/distances[i], i))
+    heappush(priorityq, (1/distances[i], encoding_for_file[i][1]))
     if(len(priorityq) > k): 
       heappop(priorityq)
   answers = sorted(priorityq, key=lambda tup: tup[0], reverse=True)
@@ -93,8 +93,8 @@ def knn_search(image_encoding, k):
 
 x=list()
 
-#splitted = np.array_split(os.listdir(my_dir)[0:N], 8)
-splitted = np.array_split(os.listdir(my_dir), 8)
+splitted = np.array_split(os.listdir(my_dir)[0:N], 8)
+#splitted = np.array_split(os.listdir(my_dir), 8)
 
 
 worker_count = 8
