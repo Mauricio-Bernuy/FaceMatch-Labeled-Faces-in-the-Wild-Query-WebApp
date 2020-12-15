@@ -14,7 +14,8 @@ def allowed_file(filename):
 ED = lambda X, Y : (sum((X - Y)**2))**0.5
 
 K = 8 # K closest elements
-N = 5 # N elements for collection
+N = 12800 # N elements for collection
+
 from rtree import index
 
 p = index.Property()
@@ -68,12 +69,19 @@ def assign_folders(folderlist,thread_num):
     result = list()
     lng = len(folderlist)
     cnt = 0
+    flag = False
     for i in folderlist:
         result = result + folder_process(i)
+
         cnt = cnt + 1
         per = (cnt/lng)*100
-        if (int(math.ceil(per)) % 5 == 0):
-            print('thread',thread_num,':', per,'%','completed')
+        if int(math.ceil(per)) % 5 == 0:
+            if flag == False:
+                print('thread',thread_num,':', per,'%','completed')
+                flag = True
+        else:
+            flag = False
+            
     print('thread',thread_num,'done!')
     Q.put(result)
     return
@@ -94,8 +102,6 @@ def knn_search(image_encoding, k):
 x=list()
 
 splitted = np.array_split(os.listdir(my_dir)[0:N], 8)
-#splitted = np.array_split(os.listdir(my_dir), 8)
-
 
 worker_count = 8
 worker_pool = []
