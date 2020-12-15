@@ -3,6 +3,8 @@ import pandas as pd
 import numpy as np
 import math
 from pandas import DataFrame
+import time
+
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 def allowed_file(filename):
@@ -30,6 +32,7 @@ my_dir = 'lfw/' # Folder where all your image files reside. Ensure it ends with 
 query_dl = 'query/'
 
 encoding_for_file = [] # Create an empty list for saving encoded files
+results_encodings = []
 face_register = dict()
 id_value=0
 
@@ -78,16 +81,27 @@ def assign_folders(folderlist,thread_num):
                 flag = True
         else:
             flag = False
-
+            
     print('thread',thread_num,'done!')
     Q.put(result)
     return
 
+from heapq import heappush, heappop
+
+def knn_search(image_encoding, k):
+  priorityq = []
+  #print(encoding_for_file)
+  distances = face_recognition.face_distance(results_encodings, image_encoding[0])
+  for i in range(len(distances)):
+    heappush(priorityq, (1/distances[i], encoding_for_file[i][1]))
+    if(len(priorityq) > k): 
+      heappop(priorityq)
+  answers = sorted(priorityq, key=lambda tup: tup[0], reverse=True)
+  return answers
 
 x=list()
 
 splitted = np.array_split(os.listdir(my_dir)[0:N], 8)
-#splitted = np.array_split(os.listdir(my_dir), 8)
 
 worker_count = 8
 worker_pool = []
@@ -102,6 +116,7 @@ for p in range(worker_count):
 cnt = 0
 for encoding in encoding_for_file:
     a=encoding[0]
+    results_encodings.append(a)
     a = a.tolist() + a.tolist()
     idx.insert(cnt, a, obj=encoding[1])
     cnt = cnt + 1
@@ -126,10 +141,18 @@ while 1:
         print('No se encontró una cara en tu búsqueda, ¿podría ser más específico?')
     else:
         q = image_encoding[0].tolist()
-
+        rtree_start = time.time()
         hits=idx.nearest(q, objects=True, num_results=K)
+        rtree_end = time.time()
 
         print("\nLos",K,"vecinos mas cercanos de",name_input,"son: ")
+        print("r-tree took ", rtree_end - rtree_start)
         for n in hits:
             a = n.object
             print(a)
+        knn_start = time.time()
+        knn_results = knn_search(image_encoding, K)
+        knn_end = time.time()
+        print("\nLos",K,"vecinos mas cercanos de",name_input," usando knn son: ", knn_results)
+        print("knn took ", knn_end - knn_start)
+       
