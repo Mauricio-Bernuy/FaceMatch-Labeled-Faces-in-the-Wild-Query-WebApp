@@ -1,5 +1,10 @@
 
-from bing_image_downloader import downloader
+import requests
+import modified_bing_downloader as downloader
 
-downloader.download('jason statham', limit=1,  output_dir='query', 
-adult_filter_off=True, force_replace=False, timeout=60)
+
+while 1:
+    name_input = input()
+    name_input = "site:wikipedia.org " + name_input
+    downloader.download(name_input, limit=1,  output_dir='test', 
+    adult_filter_off=True, force_replace=False, timeout=30)
