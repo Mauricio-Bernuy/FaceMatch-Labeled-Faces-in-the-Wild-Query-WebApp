@@ -1,0 +1,234 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <style>
+        div.gallery {
+          margin: 5px;
+          border: 1px solid #ccc;
+          float: left;
+          width: 180px;
+        }
+        
+        div.gallery:hover {
+          border: 1px solid #777;
+        }
+        
+        div.gallery img {
+          width: 100%;
+          height: auto;
+        }
+        
+        div.desc {
+          padding: 15px;
+          text-align: center;
+        }
+    </style>
+    <style class="INLINE_PEN_STYLESHEET_ID">
+        html {
+            height: 100%;
+          }
+          
+          body {
+            background-color: #ffffff;
+            height: 100%;
+          }
+          
+          .wrapper {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+          .wrapper .file-upload {
+            height: 100px;
+            width: 100px;
+            border-radius: 100px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 4px solid #FFFFFF;
+            overflow: hidden;
+            background-image: linear-gradient(to bottom, #FFFFFF 50%, #2cbd00 50%);
+            background-size: 100% 200%;
+            transition: all 1s;
+            color: #2cbd00;
+            font-size: 50px;
+          }
+          .wrapper .file-upload input[type='file'] {
+            height: 200px;
+            width: 200px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            cursor: pointer;
+          }
+          .wrapper .file-upload:hover {
+            background-position: 0 -100%;
+            color: rgb(255, 255, 255);
+          }
+    </style>
+    <title>Proyecto 2 - Face Recognition</title>
+  </head>
+
+
+<body>
+
+<div class="container-fluid">
+    <div class="container">
+        <div class="row">
+          <div class="col-sm">
+            <div class="mx-auto" style="width: 500px;">
+              
+                <div style="background:transparent !important" class="jumbotron">
+                  <h1 class="display-4">Face Recognition</h1>
+                  <p class="lead">Encuentra los rostros mas similares en la base de datos Labeled Faces in the Wild para un rostro arbitrario.</p>
+                  
+                  <hr class="my-4" >
+                  <p> Para comenzar, adjunte una imagen con un rostro visible.
+                  <p class="lead">
+                      <form method=POST enctype=multipart/form-data>
+                      <div class="wrapper">
+                          <div class="file-upload">
+                            <input type="file" name=file />                          
+                          <i class="fa fa-arrow-up"></i>
+                      </div>
+                      <input type=submit value=Upload>
+                      </form>
+                      <small id="HelpBlock" class="form-text text-muted">
+                          sube o arrastra una imagen para analizar su rostro
+                      </small>
+                  </p>
+                </div>
+                <hr class="my-4">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-sm"id=mainresult>
+                </div></div></div>
+              <form action="/query" method="POST">
+                <hr class="my-4">
+                <p>También puede realizar una búsqueda de algún personaje conocido.</p>
+                <p class="lead">
+                    <input type="text" name="query_search" id="frasse" class="form-control mr-sm-2" placeholder="Búsqueda en Wikipedia" aria-label="Search">
+                    <small id="HelpBlock" class="form-text text-muted">
+                        realiza una busqueda sobre Wikipedia.org del personaje mencionado para encontrar su rostro.
+                    </small>
+                </p>
+                <hr class="my-4">
+                <p>Número de resultados a devolver.</p>
+                <p class="lead">
+                    <input type="number" name="k_search" id="frasse" min="1" max="100" value="8" class="form-control mr-sm-2" placeholder="K" aria-label="Search">
+                    <small id="HelpBlock" class="form-text text-muted">
+                        número de resultados a mostrar
+                    </small>
+                    <hr class="my-5">
+                    <button type="submit" id="startSearch" class="btn btn-success btn-block">Realizar Búsqueda</button>
+                </p>
+              </form>
+            </div>
+              
+          </div>
+        </div>
+
+          <div class="col-sm" id="image_results">               
+          </div>
+        </div>
+      </div>
+    
+    </div>      
+
+    <script type="text/javascript"> 
+        var files = {{ query_pics|safe }};
+        console.log(files);
+        var main_img = '{{ searched_image }}';
+        console.log(main_img);
+        for(i in files){
+            console.log(files[i]);
+            var dir = files[i];//"lfw/Zulfiqar_Ahmed/Zulfiqar_Ahmed_0001.jpg"
+            //var name = files[i];//"javingo"
+            var name = dir.split('/').pop().replace("_"," ").split('.')[0];
+            console.log(name);
+            var div = document.createElement('div');
+            div.setAttribute('class', 'gallery');
+            var a = document.createElement('a');
+            a.setAttribute('target', 'blank');
+            a.setAttribute('href', dir);
+            var b = document.createElement('img');
+            b.setAttribute('src', dir);
+            b.setAttribute('width', '600');
+            b.setAttribute('height', '600');
+            a.appendChild(b);
+            div.appendChild(a);
+            var c = document.createElement('div');
+            c.setAttribute('class','desc');
+            c.innerHTML= name;
+            div.appendChild(c);
+            document.getElementById('image_results').appendChild(div); 
+        }
+        if (main_img){
+          var dir = main_img;
+          var name = dir.split('/').pop().replace("_"," ").split('.')[0];
+          console.log(name);
+          var div = document.createElement('div');
+          div.setAttribute('class', 'gallery');
+          var a = document.createElement('a');
+          a.setAttribute('target', 'blank');
+          a.setAttribute('href', dir);
+          var b = document.createElement('img');
+          b.setAttribute('src', dir);
+          b.setAttribute('width', '1000');
+          b.setAttribute('height', '1000');
+          a.appendChild(b);
+          div.appendChild(a);
+          var c = document.createElement('div');
+          c.setAttribute('class','desc');
+          c.innerHTML= name;
+          div.appendChild(c);
+          document.getElementById('mainresult').appendChild(div);       
+        }
+        /*
+        var dir = "static/lfw/Zulfiqar_Ahmed/Zulfiqar_Ahmed_0001.jpg"
+        var name = dir.split('/').pop().replace("_"," ").split('.')[0];
+        console.log(name);
+        var div = document.createElement('div');
+        div.setAttribute('class', 'gallery');
+        var a = document.createElement('a');
+        a.setAttribute('target', 'blank');
+        a.setAttribute('href', dir);
+        var b = document.createElement('img');
+        b.setAttribute('src', dir);
+        b.setAttribute('width', '600');
+        b.setAttribute('height', '600');
+        a.appendChild(b);
+        div.appendChild(a);
+        var c = document.createElement('div');
+        c.setAttribute('class','desc');
+        c.innerHTML= name;
+        div.appendChild(c);
+
+        document.getElementById('image_results').appendChild(div);
+        */
+/*
+        var files = {{ query_result_json|safe }}
+        console.log(files)
+        var i, count = 0;
+        for(i in files) {
+            console.log(i)
+            var para = document.createElement("P");
+            var scor = document.createElement("P");
+            console.log(files[i][1])
+            console.log(files[i][0])
+            para.innerHTML = files[i][1]
+            scor.innerHTML = files[i][0]
+            document.getElementById("image_results").appendChild(scor)
+            document.getElementById("image_results").appendChild(para)
+        */
+      </script>
+  </body>
