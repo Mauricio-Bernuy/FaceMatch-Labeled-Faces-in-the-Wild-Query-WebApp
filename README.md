@@ -36,18 +36,9 @@ Se utilizó la librería Pickle para guardar la lista de encodificaciones de fac
 
 En este repositorio, se encuentran dos implementaciones del KNN, y se mostrarán las diferencias de tiempos entre ambas, dependiendo de la cantidad de muestras utilizadas. En la siguiente tabla, se ve una comparacion de la eficiencia entre ambos metodos.
 
-| N (Samples)  | R-Tree (seconds)  | Sequential (seconds)  |
-|---|---|---|---|---|
-|100|0.0008280277252197266|0.0005335807800292969|
-|200|0.0015153884887695312|0.0008220672607421875|
-|400|0.0020864009857177734|0.0013515949249267578|
-|800|0.003966093063354492|0.0026199817657470703|
-|1600|0.00938272476196289|0.007521867752075195|
-|3200|0.024965524673461914|0.019777297973632812|
-|6400|0.04304933547973633| 0.033471107482910156|
-|12800|0.0502774715423584| 0.06554332246344231|
+![](https://i.imgur.com/gNbvizw.png)
 
-Esta tabla nos demuestra que el R-Tree es mas lento a una implemetacion secuencial del algoritmo, aunque a grandes rasgos, esta diferencia es casi insignificante, pues en el peor de los casos, igual hay una diferencia de menos de 0.01 segundos entre las implementaciones.
+Esta tabla nos demuestra que el R-Tree es mas lento a una implemetacion secuencial del algoritmo, aunque a grandes rasgos, esta diferencia es casi insignificante, pues en el peor de los casos, igual hay una diferencia de menos de 0.01 segundos entre las implementaciones, la cual va favoreciendo cada vez mas a la implementación en R-tree.
 
 ### Aplicación
 Para hacer la aplicacion web, se utilizo "Flask", un framework de python, asi como HTML y la libreria de Bootstrap. Flask nos permitio tener una comunicacion con las demas partes del progrma de forma eficiente, por lo que lo usamos para el backend.
