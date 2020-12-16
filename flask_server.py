@@ -10,7 +10,7 @@ UPLOAD_PATH = 'static/query'
 INDEX_PATH = 'indexstore'
 QUERY = 'static/query'
 ALLOWED_EXTENSIONS= {'png', 'jpg'}
-N = 100
+N = -1
 
 def createpaths():
     for dir in [UPLOAD_PATH, INDEX_PATH]:
