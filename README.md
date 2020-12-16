@@ -45,7 +45,7 @@ En este repositorio, se encuentran dos implementaciones del KNN, y se mostrarán
 |1600|0.00938272476196289|0.007521867752075195|
 |3200|0.024965524673461914|0.019777297973632812|
 |6400|0.04304933547973633| 0.033471107482910156|
-|12800|   |   |
+|12800|0.0502774715423584| 0.06554332246344231|
 
 Esta tabla nos demuestra que el R-Tree es mas lento a una implemetacion secuencial del algoritmo, aunque a grandes rasgos, esta diferencia es casi insignificante, pues en el peor de los casos, igual hay una diferencia de menos de 0.01 segundos entre las implementaciones.
 
