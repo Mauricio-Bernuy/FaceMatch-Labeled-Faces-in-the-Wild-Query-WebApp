@@ -4,7 +4,7 @@ import flask
 from flask import Flask, render_template, jsonify, request, redirect, flash, url_for, json
 from werkzeug.utils import secure_filename
 
-import functions
+
 
 UPLOAD_PATH = 'static/query'
 INDEX_PATH = 'indexstore'
@@ -17,6 +17,8 @@ def createpaths():
         if not os.path.exists(dir):
             os.makedirs(dir)
 createpaths()
+
+import functions
 
 def clearfiles():
     for dir in [UPLOAD_PATH]:
@@ -76,13 +78,13 @@ def query():
     global img_dir
     global time
     name = request.form['query_search']
-    K = request.form['k_search']
+    K = int(request.form['k_search'])
     time = 0
 
     if not searched_image:
-        query_pics = functions.image_search(name, 8, "rtree")
+        query_pics = functions.image_search(name, K, "rtree")
     else:
-        query_pics = functions.analyze_and_return(searched_image, 8, "rtree")
+        query_pics = functions.analyze_and_return(searched_image, K, "rtree")
     if query_pics:
         img_dir = query_pics[0]
         searched_image = img_dir
