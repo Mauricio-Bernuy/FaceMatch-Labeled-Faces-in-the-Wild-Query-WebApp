@@ -1,6 +1,6 @@
-# BD2-P2-H2
+# FaceMatch Web App
 
-# Proyecto 2 - Hito 2 | Rtree - Face Recognition
+# Proyecto 2 - Hito 2  - Bases de Datos 2 UTEC | Rtree - Face Recognition
 
 ## Introducción
 El reconocimiento facial es una tecnología en constante crecimiento. Sus varios usos ha llevado a un gran número de aplicaciones, como el reconocimiento de si dos personas en imágenes separadas son la misma o no. A través del procesamiento de imágenes, se puede sacar un conjunto de personas que presentan el mayor nivel de similitud a una inicial, proceso cuya aplicación tiene distintas fromas de ser llevado a cabo. 
