@@ -5,7 +5,6 @@ from flask import Flask, render_template, jsonify, request, redirect, flash, url
 from werkzeug.utils import secure_filename
 
 
-
 UPLOAD_PATH = 'static/query'
 INDEX_PATH = 'indexstore'
 QUERY = 'static/query'
