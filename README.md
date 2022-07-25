@@ -51,6 +51,7 @@ La aplicación misma recibe o una imagen o un texto que realiza una búsqueda (s
 ## Búsqueda en Wikipedia
 
 Además de poder enviar una imagen a la aplicación por medio de carga de archivos, nos pareció interesante el permitir la búsqueda de algun personaje arbitrario para utilizar nuestra página. Para eso se planeó usar la librería [bing-image-downloader](https://pypi.org/project/bing-image-downloader/), la cual nos brinda un API para realizar *queries* a través de ese motor de búsqueda, devolviéndonos una imagen acorde a un input dado. Esta tuvo que ser modificada ligeramente para permitir la descarga de urls conteniendo caracteres como tildes y dialisis, puesto que estos no fueron considerados por su desarrollador. Se hace uso también del advanced search query de Bing para obtener resultados provenientes únicamente de Wikipedia (añadiendo al comienzo de una búsqueda 'site:wikipedia.org'), visto que esto logró darnos los resultados más precisos.
+
 ![](https://i.imgur.com/3zuJTOw.png)
 
 
