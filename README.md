@@ -1,5 +1,7 @@
 # FaceMatch Web App
 
+![](https://i.imgur.com/Hw7OhNt.png)
+
 # Proyecto 2 - Hito 2  - Bases de Datos 2 UTEC | Rtree - Face Recognition
 
 ## Introducción
@@ -44,7 +46,6 @@ Esta tabla nos demuestra que el R-Tree es mas lento a una implemetacion secuenci
 Para hacer la aplicacion web, se utilizo "Flask", un framework de python, asi como HTML y la libreria de Bootstrap. Flask nos permitio tener una comunicacion con las demas partes del progrma de forma eficiente, por lo que lo usamos para el backend.
 
 La aplicación misma recibe o una imagen o un texto que realiza una búsqueda (se explica mejor en el siguiente inciso). Estos funcionarán como el input de rostro que se quiere relacionar con lo que se tenga en las estructuras implementadas. Estas, utilizando Flask, son enviadas al backend donde se usan las funciones de Face Recognition para hallar su vector característico y luego solo se usa la función "nearest" para hallar los 8 más cercanos. La dirección de estos 8 elementos es enviado al frontend, tal que este puede leerlos y mostrar las imagenes como resultados en un lado.
-![](https://i.imgur.com/Hw7OhNt.png)
 
 ![](https://i.imgur.com/MxeWS7Z.png)
 
